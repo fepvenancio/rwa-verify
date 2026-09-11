@@ -5,11 +5,18 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": "./dist/index.js" },
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests"
   },
-  "dependencies": { "@rwa-verify/core": "workspace:*" }
+  "dependencies": {
+    "@noble/hashes": "^2.4.0",
+    "@rwa-verify/core": "workspace:*",
+    "@xmldom/xmldom": "^0.9.12",
+    "xml-crypto": "^6.1.2"
+  }
 }

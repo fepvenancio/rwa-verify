@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+
+# Foundry
+packages/solidity/out/
+packages/solidity/cache/
+packages/solidity/broadcast/
+
+# Internal notes — never commit
+.repo-audit/
+.letta/

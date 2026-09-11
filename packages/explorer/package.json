@@ -1,0 +1,6 @@
+{
+  "name": "@rwa-verify/explorer",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": { "test": "echo 'explorer: not started (see PLAN.md)'" }
+}

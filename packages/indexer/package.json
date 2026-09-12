@@ -2,5 +2,15 @@
   "name": "@rwa-verify/indexer",
   "version": "0.0.0",
   "private": true,
-  "scripts": { "test": "echo 'indexer: not started (see PLAN.md)'" }
+  "scripts": {
+    "test": "echo 'indexer: not started (see PLAN.md)'"
+  },
+  "dependencies": {
+    "hono": "^4.13.7",
+    "ponder": "^0.17.10",
+    "viem": "^2.56.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2"
+  }
 }

@@ -11,7 +11,8 @@
     "test:sol": "forge test --root packages/solidity",
     "typecheck": "pnpm -r typecheck",
     "test:diff": "forge test --root packages/solidity --profile diff",
-    "test:e2e": "pnpm --filter @rwa-verify/readers exec vitest run src/e2e.test.ts"
+    "test:e2e": "pnpm --filter @rwa-verify/readers exec vitest run src/e2e.test.ts",
+    "test:indexer": "pnpm --filter @rwa-verify/indexer test:e2e"
   },
   "devDependencies": {
     "@types/node": "^22.20.2",

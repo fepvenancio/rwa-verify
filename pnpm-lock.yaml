@@ -42,6 +42,9 @@ importers:
 
   packages/indexer:
     dependencies:
+      '@rwa-verify/readers':
+        specifier: workspace:*
+        version: link:../readers
       hono:
         specifier: ^4.13.7
         version: 4.13.7

@@ -2,10 +2,16 @@
   "name": "@rwa-verify/indexer",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo 'indexer: not started (see PLAN.md)'"
+    "dev": "ponder dev",
+    "start": "ponder start",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests --exclude src/e2e.test.ts",
+    "test:e2e": "vitest run src/e2e.test.ts"
   },
   "dependencies": {
+    "@rwa-verify/readers": "workspace:*",
     "hono": "^4.13.7",
     "ponder": "^0.17.10",
     "viem": "^2.56.3"

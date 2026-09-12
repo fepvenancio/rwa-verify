@@ -4,6 +4,10 @@ dist/
 .env
 .env.*
 
+# Ponder (packages/indexer)
+packages/indexer/.ponder/
+packages/indexer/generated/
+
 # Foundry
 packages/solidity/out/
 packages/solidity/cache/

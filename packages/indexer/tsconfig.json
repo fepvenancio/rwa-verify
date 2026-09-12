@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false, // not a library; inferred drizzle table types are not nameable for .d.ts emit (TS2742)
+    // @rwa-verify/readers publishes dist/, which is not built in typecheck or CI; resolve it from source.
+    // Ponder's bundler (vite-tsconfig-paths) and vitest.config.ts honour the same mapping at runtime.
+    "paths": { "@rwa-verify/readers": ["../readers/src/index.ts"] }
+  },
+  "include": ["src", "ponder.config.ts", "ponder.schema.ts", "ponder-env.d.ts", "vitest.config.ts"]
+}

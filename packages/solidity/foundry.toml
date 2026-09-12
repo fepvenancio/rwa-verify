@@ -3,15 +3,29 @@ src = "src"
 test = "test"
 out = "out"
 libs = ["lib"]
-solc = "0.8.30"
+# 0.8.35: the vendored ERC-8320 reference implementation (fixtures/erc8320) requires ^0.8.35.
+solc = "0.8.35"
 evm_version = "cancun"
 optimizer = true
 optimizer_runs = 200
+allow_paths = ["../../fixtures"]
 fs_permissions = [{ access = "read", path = "../../fixtures" }]
+# FFI differential tests live in test/diff and only run under `--profile diff`.
+no_match_path = "test/diff/*"
 
 [fmt]
 line_length = 120
 
-# Differential tests against Kula reference impls on a local Anvil (ADR-003).
+# Tests and mocks are exercised, not shipped; their lint noise (calls in loops, unused returns after expectRevert,
+# uint64(block.timestamp) casts) is by design. src/ is linted in full.
+[lint]
+ignore = ["test/**/*.sol"]
+# Library entry points are "used once" by definition inside this package.
+exclude_lints = ["internal-function-used-once"]
+
+# Differential tests against external references (ADR-003). `forge test --profile diff`.
 [profile.diff]
 ffi = true
+match_path = "test/diff/*"
+no_match_path = "test/diff/.none"
+fs_permissions = [{ access = "read", path = "../../fixtures" }, { access = "read-write", path = "out" }]

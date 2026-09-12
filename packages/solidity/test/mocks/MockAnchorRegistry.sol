@@ -27,6 +27,10 @@ contract MockAnchorRegistry is IERC165 {
         record.boundTokenId = tokenId;
     }
 
+    function setAnchorId(bytes32 anchorId) external {
+        record.anchorId = anchorId;
+    }
+
     function setFlags(bool bound_, bool active_, bool bindingValid_) external {
         bound = bound_;
         active = active_;

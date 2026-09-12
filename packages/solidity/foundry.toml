@@ -16,10 +16,10 @@ no_match_path = "test/diff/*"
 [fmt]
 line_length = 120
 
-# Tests and mocks are exercised, not shipped; their lint noise (calls in loops, unused returns after expectRevert,
+# Tests, mocks and the fixture script are exercised, not shipped; their lint noise (calls in loops, unused returns,
 # uint64(block.timestamp) casts) is by design. src/ is linted in full.
 [lint]
-ignore = ["test/**/*.sol"]
+ignore = ["test/**/*.sol", "script/**/*.sol"]
 # Library entry points are "used once" by definition inside this package.
 exclude_lints = ["internal-function-used-once"]
 
@@ -28,4 +28,9 @@ exclude_lints = ["internal-function-used-once"]
 ffi = true
 match_path = "test/diff/*"
 no_match_path = "test/diff/.none"
+fs_permissions = [{ access = "read", path = "../../fixtures" }, { access = "read-write", path = "out" }]
+
+# Local fixture stack for the readers' e2e test (`pnpm test:e2e`, scripts/fixture-stack.sh). The script writes
+# out/fixture-stack.json.
+[profile.fixture]
 fs_permissions = [{ access = "read", path = "../../fixtures" }, { access = "read-write", path = "out" }]

@@ -82,9 +82,9 @@ describe.skipIf(!tools)(tools ? "e2e: indexer vs fixture stack on Anvil" : "e2e:
     const forge = spawnSync(
       "forge",
       ["script", "script/FixtureStack.s.sol", "--rpc-url", rpc, "--broadcast", "--private-key", ANVIL_KEY],
-      { cwd: SOL_ROOT, env: { ...process.env, FOUNDRY_PROFILE: "fixture" }, encoding: "utf8" },
+      { cwd: SOL_ROOT, env: { ...process.env, FOUNDRY_PROFILE: "fixture" }, encoding: "utf8", timeout: 180_000 },
     );
-    if (forge.status !== 0) throw new Error(`forge script failed:\n${forge.stdout}\n${forge.stderr}`);
+    if (forge.status !== 0) throw new Error(`forge script failed (${forge.error ?? "exit " + forge.status}):\n${forge.stdout}\n${forge.stderr}`);
     fx = JSON.parse(readFileSync(`${SOL_ROOT}out/fixture-stack.json`, "utf8")) as Fixture;
     oracle = fx.navOracle as Hex;
     log = fx.eventLog as Hex;

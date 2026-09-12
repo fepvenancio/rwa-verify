@@ -9,7 +9,8 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "test:sol": "forge test --root packages/solidity",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "test:diff": "forge test --root packages/solidity --profile diff"
   },
   "devDependencies": {
     "@types/node": "^22.20.2",

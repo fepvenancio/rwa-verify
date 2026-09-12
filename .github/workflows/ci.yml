@@ -33,3 +33,21 @@ jobs:
         working-directory: packages/solidity
       - run: forge test -vvv
         working-directory: packages/solidity
+
+  differential:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: stable
+      - run: pnpm install --frozen-lockfile
+      - run: forge test --profile diff -vv
+        working-directory: packages/solidity

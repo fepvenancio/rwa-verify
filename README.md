@@ -26,4 +26,16 @@ Consumes ERC-3643 / ERC-7943 / ERC-4626 today and ERC-8320 / 8325 / 8326 / 8328 
 pnpm install
 pnpm test          # all TS packages
 pnpm test:sol      # Foundry
+pnpm test:diff     # TypeScript canonicaliser vs Solidity BundleHashLib (FFI)
 ```
+
+## CLI
+
+```bash
+pnpm --filter @rwa-verify/readers exec tsx src/cli.ts <token> --chain <id> --rpc <url> [--token-id <n>] [hints]
+pnpm --filter @rwa-verify/readers exec tsx src/cli.ts check <id> --chain <id> --rpc <url> --token <addr>
+pnpm --filter @rwa-verify/canon   exec tsx src/cli.ts hash [--strict] <entries.json>
+pnpm --filter @rwa-verify/canon   exec tsx src/cli.ts entry --file <path> --role <ROLE> --mime <type> --profile raw|json|xml
+```
+
+Check ids and status semantics: [packages/readers/CHECKS.md](packages/readers/CHECKS.md).

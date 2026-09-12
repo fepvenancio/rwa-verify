@@ -1,2 +1,22 @@
 // WS2: viem ABIs + typed readers + AssetIdentity adapters. See PLAN.md §1 and CLAUDE.md.
-export {};
+export * from "./abi/erc165.js";
+export * from "./abi/erc3643.js";
+export * from "./abi/erc4626.js";
+export * from "./abi/erc7943.js";
+export * from "./abi/erc8320.js";
+export * from "./abi/erc8325.js";
+export * from "./abi/erc8326.js";
+export * from "./abi/erc8328.js";
+export * from "./abi/erc8330.js";
+export * from "./abi/interfaceIds.js";
+export { read, type ReadResult } from "./call.js";
+export { detect, supportsInterface, type Detection } from "./detect.js";
+export { CHECKS, BASELINE_CHECKS, type CheckId } from "./checks/index.js";
+export { HINT_FLAGS, type CheckContext, type RegistryHints, type Check } from "./checks/context.js";
+export { BINDING_SCOPE_CONTRACT, BINDING_SCOPE_TOKEN_ID } from "./checks/erc8325.js";
+export { PROBE } from "./checks/erc7943.js";
+export { erc8325Identity } from "./identity/erc8325.js";
+export { erc8320Identity } from "./identity/erc8320.js";
+export { selectIdentity } from "./identity/select.js";
+export { verify, reportToJson, type VerifyOptions } from "./verify.js";
+export { parseArgs, runCli, UsageError, USAGE, type CliArgs } from "./cli.js";

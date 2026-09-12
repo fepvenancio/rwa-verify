@@ -11,12 +11,15 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "cli": "tsx src/cli.ts"
   },
   "dependencies": {
     "@noble/hashes": "^2.4.0",
     "@rwa-verify/core": "workspace:*",
-    "@xmldom/xmldom": "^0.9.12",
-    "xml-crypto": "^6.1.2"
+    "@xmldom/xmldom": "^0.9.12"
+  },
+  "bin": {
+    "rwa-canon": "./dist/cli.js"
   }
 }

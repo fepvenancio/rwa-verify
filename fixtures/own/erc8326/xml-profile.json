@@ -1,0 +1,22 @@
+{
+  "description": "PROFILE_XML_C14N11: XML declaration, comments, PIs, namespaces (re-bound prefix, default namespace, superfluous re-declaration), CDATA, character references, CRLF line ends, attribute reordering.",
+  "documents": [
+    {
+      "filename": "Certs\\ISO-9001.XML",
+      "mimeType": "application/xml",
+      "role": "CERTIFICATION",
+      "profile": "xml",
+      "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<?xml-stylesheet href=\"c.xsl\" type=\"text/xsl\"?>\r\n<!-- issued 2026 -->\r\n<cert:certificate xmlns:cert=\"urn:example:cert\" xmlns=\"urn:example:default\" xmlns:x=\"urn:x\" id=\"C-1\" cert:issuer=\"Acme &amp; Co\">\r\n  <holder xmlns=\"urn:example:default\" xmlns:x=\"urn:x2\" x:ref=\"7\">Ex&#xE1;mple <![CDATA[<b>bold</b> & more]]></holder>\r\n  <scope xmlns=\"\">tab\there<?note  keep   ?><!-- gone --></scope>\r\n  <empty/>\r\n</cert:certificate>\r\n<!-- trailing -->\r\n"
+    }
+  ],
+  "entries": [
+    {
+      "contentHash": "0x564298419d17e8b798dbfcfe34e0fc9940a91c3a1833cae5c8c29bef0132c71a",
+      "role": "0xc57f40f8c448d11feea18cfbe90329b6e418975021b57f56fffc73fb6be13a17",
+      "mimeTypeHash": "0x37aaf14a93fea5695fd8577aacfb548c98692a106d439219bfb9b83e3011ea2f",
+      "filenameHash": "0x4609913acebfc9671d52bd7385a69016324241784d8a4eb0e0caff34d7e029c1",
+      "normProfileId": "0x72efa7a47196f4ad021a5a3758b19b14d8e09d7b7b211bf4745b35cba62e49c2"
+    }
+  ],
+  "bundleHash": "0xda007552751f0f7e89ce618d6e5798042f1e65773e69d21a42b90cc56c59e9d3"
+}

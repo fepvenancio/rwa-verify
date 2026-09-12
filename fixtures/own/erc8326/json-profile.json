@@ -1,0 +1,22 @@
+{
+  "description": "PROFILE_JSON_RFC8785: nested objects, arrays, escapes, non-ASCII, surrogate pair, numbers needing canonical form, insignificant whitespace, unsorted keys.",
+  "documents": [
+    {
+      "filename": "reports/Q3/Valuation.JSON",
+      "mimeType": "application/json; charset=utf-8",
+      "role": "LEGAL_BASIS",
+      "profile": "json",
+      "content": "{\n  \"nav\": 1.50E2,\n  \"assets\": [ {\"z\": null, \"a\": \"caf\\u00e9 \\ud83d\\ude00\", \"b\": [1, 2.0, -0, 1e21]} ],\n  \"\\u20ac\": \"euro\",\n  \"1\": true,\n  \"text\": \"line\\nbreak \\\"quoted\\\" \\/ slash <tag> \\u001f\"\n}\n"
+    }
+  ],
+  "entries": [
+    {
+      "contentHash": "0x6bcd83e0fd1e294c0c690d8d94d95ebc645a0eec4f463646a455af166276dd71",
+      "role": "0xfb5c93cd85e4125f766a100467ebcee0834dc76251664aa6f3ed68a3f64cb147",
+      "mimeTypeHash": "0x82e6a468c95da6cfe399f69ee0782fd009e354a8030ea5636ea9c7db0edcf7f5",
+      "filenameHash": "0x0b7c757bb8d6e1226e8d7f1986bc261c473afd593c5ad0f78fc174b992a16e3b",
+      "normProfileId": "0x464861b0846e795db3d9c52e9c49870c7e83f2bb07f73764f7e4850151994f40"
+    }
+  ],
+  "bundleHash": "0x4a19b0c127752619036c8f08a561a110057073610c32f2159938ee6f78c926e4"
+}

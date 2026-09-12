@@ -1,0 +1,92 @@
+{
+  "description": "One raw-profile document per spec role, including a binary document given as hex; input order is scrambled relative to the role sort.",
+  "documents": [
+    {
+      "filename": "docs/Supporting.pdf",
+      "mimeType": "application/pdf",
+      "role": "SUPPORTING",
+      "profile": "raw",
+      "contentHex": "0x255044462d312e370a25e2e3cfd30a"
+    },
+    {
+      "filename": "Amendment-1.txt",
+      "mimeType": "text/plain",
+      "role": "AMENDMENT",
+      "profile": "raw",
+      "content": "Amendment 1\n"
+    },
+    {
+      "filename": "LEGAL/Basis.md",
+      "mimeType": "text/markdown",
+      "role": "LEGAL_BASIS",
+      "profile": "raw",
+      "content": "# Legal basis\n"
+    },
+    {
+      "filename": "photo.PNG",
+      "mimeType": "image/png",
+      "role": "EVIDENCE",
+      "profile": "raw",
+      "contentHex": "0x89504e470d0a1a0a0000000d49484452"
+    },
+    {
+      "filename": "cert.txt",
+      "mimeType": "text/plain",
+      "role": "CERTIFICATION",
+      "profile": "raw",
+      "content": "certified"
+    },
+    {
+      "filename": "Agreement.txt",
+      "mimeType": "text/plain;charset=US-ASCII",
+      "role": "AGREEMENT",
+      "profile": "raw",
+      "content": "agreed"
+    }
+  ],
+  "entries": [
+    {
+      "contentHash": "0xc48c3ed19e4a7754d66285a3ad5a07491e02502dc0879c38c58bc5065de0df86",
+      "role": "0xb0e9b5730d97b99270ce15f439eec98a4f9580e1dfbfb8f5c9e0e3ab71d4bca6",
+      "mimeTypeHash": "0xc25cd144d0769d0bd8eda393efc5b6d710707077b014c4b90f4dbb10f8e33173",
+      "filenameHash": "0xf7de42e201c015056007de8643ecc310a691f0c75d1261d9adfafd670a91aa42",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x709c227b49c80a39ae562837a33d530a884f795270fe46763f35aa6ccebbe0c3",
+      "role": "0x5365b0f41e2dbdbe5c8d0e1e6ffe50a4581cad17bd8833fa011cb374619807e1",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0x4e28912b99e3a6386bb541046b7b1b22750342869d6bea11b42f25afff4dde90",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0xdab553d5cb752c5026b426aaaabbd82300458f34aa8affb81237a82c8d1984e7",
+      "role": "0xfb5c93cd85e4125f766a100467ebcee0834dc76251664aa6f3ed68a3f64cb147",
+      "mimeTypeHash": "0x044c047c4f697f124aaa85c169beaa9bf6cfd5fab7b0898d11832fa9371401cc",
+      "filenameHash": "0xe63c08a21a7a7b906c862a1a2760d85d9930c4e74fa3f1c4deb284c0f7d00ab1",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x739c97d54b49a0f3cc28cd6d479b2594091fa76ac7b686535f82d52d34513f02",
+      "role": "0x7477535acdef313b25d16b4871e7023fac62af68d6312bbdbdb96203a4710dc3",
+      "mimeTypeHash": "0xacc26745c1c11e5b0829a5d3a9072d57c4c00bd726a37e99f4552ffffab11261",
+      "filenameHash": "0x53da92e0c32571674fad261e2bcbc8b48493b517af2b562a624d7e0c8bccf119",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x03f74390d789e76a8fbe8366f3a4c196bfb92a39cd9d6864e30f1604bd92af35",
+      "role": "0xc57f40f8c448d11feea18cfbe90329b6e418975021b57f56fffc73fb6be13a17",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0x8475f0f571132e88620cfc3c181b24c36df6154265f76b515a6986a66f5a55b2",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x6c7b0b1c2030be2c643396fd6dc3924ed2cca787e91e5b7b0d3ad68dbf373016",
+      "role": "0x566614d5b403a4ea71e1ef1027b77ff1e1a13a54c7f393aa64a1368de23a5f92",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0x1a5473cab2a35893f4f47bf2c8a0bda8fe5a6dbba1a81b454b84719c6d01549d",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    }
+  ],
+  "bundleHash": "0x79b52db0427e028c9e18b2ef94ebbd728fde968e659bfd97b7ae27a67233c1bc"
+}

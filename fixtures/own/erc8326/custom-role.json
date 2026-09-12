@@ -1,0 +1,36 @@
+{
+  "description": "A custom (non-spec) role identifier given as raw bytes32 alongside a spec role.",
+  "documents": [
+    {
+      "filename": "kyc.json",
+      "mimeType": "application/json",
+      "role": "0x4242424242424242424242424242424242424242424242424242424242424242",
+      "profile": "json",
+      "content": "{\"kyc\": true, \"tier\": 2}"
+    },
+    {
+      "filename": "README.TXT",
+      "mimeType": "text/plain",
+      "role": "SUPPORTING",
+      "profile": "raw",
+      "content": "Hello, ERC-8326!\n"
+    }
+  ],
+  "entries": [
+    {
+      "contentHash": "0x0d5197976fd31c3e2c405ee64402cfed2b408e3101da0a85c7aa48005f130e25",
+      "role": "0x4242424242424242424242424242424242424242424242424242424242424242",
+      "mimeTypeHash": "0x82e6a468c95da6cfe399f69ee0782fd009e354a8030ea5636ea9c7db0edcf7f5",
+      "filenameHash": "0xe507af6058f163443c335141534549f358ddd238e1343774d1ace06b8f375d54",
+      "normProfileId": "0x464861b0846e795db3d9c52e9c49870c7e83f2bb07f73764f7e4850151994f40"
+    },
+    {
+      "contentHash": "0x06750728a91d155294f77f992fec49acabb0470481439ed5e3bb59854df82ec9",
+      "role": "0xb0e9b5730d97b99270ce15f439eec98a4f9580e1dfbfb8f5c9e0e3ab71d4bca6",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0x31f491635b16d6fb45a7d770fcbcc8cbb6eae32ac98ab622631f4bc4a8c7e9ce",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    }
+  ],
+  "bundleHash": "0x1242f1e51df824f9fd9b15c0debaa4770160c328570434ff14eb9ac52e6945d0"
+}

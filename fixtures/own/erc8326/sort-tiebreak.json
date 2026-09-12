@@ -1,0 +1,92 @@
+{
+  "description": "Entries sharing the same role, so ordering falls through to filenameHash, contentHash, mimeTypeHash and normProfileId in turn. The last two documents have identical contentHash and mimeTypeHash (raw and RFC 8785 of an already-canonical JSON text) and differ only in profile.",
+  "documents": [
+    {
+      "filename": "b.txt",
+      "mimeType": "text/plain",
+      "role": "EVIDENCE",
+      "profile": "raw",
+      "content": "same"
+    },
+    {
+      "filename": "a.txt",
+      "mimeType": "text/plain",
+      "role": "EVIDENCE",
+      "profile": "raw",
+      "content": "same"
+    },
+    {
+      "filename": "a.txt",
+      "mimeType": "text/plain",
+      "role": "EVIDENCE",
+      "profile": "raw",
+      "content": "other"
+    },
+    {
+      "filename": "a.txt",
+      "mimeType": "text/markdown",
+      "role": "EVIDENCE",
+      "profile": "raw",
+      "content": "same"
+    },
+    {
+      "filename": "x.json",
+      "mimeType": "application/json",
+      "role": "EVIDENCE",
+      "profile": "raw",
+      "content": "{\"a\":1}"
+    },
+    {
+      "filename": "x.json",
+      "mimeType": "application/json",
+      "role": "EVIDENCE",
+      "profile": "json",
+      "content": "{\"a\":1}"
+    }
+  ],
+  "entries": [
+    {
+      "contentHash": "0x3bdb6b41102a29ecc505b69ad4668818105aee551ed2fb6750521336167f0cb0",
+      "role": "0x7477535acdef313b25d16b4871e7023fac62af68d6312bbdbdb96203a4710dc3",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0xe4b53894ce27a4c29534e99b6acd618e526a0392d1df887c7022f034fa4ee51f",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x3bdb6b41102a29ecc505b69ad4668818105aee551ed2fb6750521336167f0cb0",
+      "role": "0x7477535acdef313b25d16b4871e7023fac62af68d6312bbdbdb96203a4710dc3",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0xcfae6828f356c12e4dd9af402e858b6fbbe49664afa421b31abcf7d884f88cb9",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x26b60b6bee32c2d284da42d089b795640a977077a3c25b246fe0448f42ce4ec0",
+      "role": "0x7477535acdef313b25d16b4871e7023fac62af68d6312bbdbdb96203a4710dc3",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0xcfae6828f356c12e4dd9af402e858b6fbbe49664afa421b31abcf7d884f88cb9",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x3bdb6b41102a29ecc505b69ad4668818105aee551ed2fb6750521336167f0cb0",
+      "role": "0x7477535acdef313b25d16b4871e7023fac62af68d6312bbdbdb96203a4710dc3",
+      "mimeTypeHash": "0x044c047c4f697f124aaa85c169beaa9bf6cfd5fab7b0898d11832fa9371401cc",
+      "filenameHash": "0xcfae6828f356c12e4dd9af402e858b6fbbe49664afa421b31abcf7d884f88cb9",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x25e7c2a96531eb50246780c1f25742e489bf55210e26981dc02992bb585feb97",
+      "role": "0x7477535acdef313b25d16b4871e7023fac62af68d6312bbdbdb96203a4710dc3",
+      "mimeTypeHash": "0x82e6a468c95da6cfe399f69ee0782fd009e354a8030ea5636ea9c7db0edcf7f5",
+      "filenameHash": "0x3a5fc6f13b106c8a59fd0318a9602ac882b43a4b76e233eb79163ed05fd7fc08",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    },
+    {
+      "contentHash": "0x25e7c2a96531eb50246780c1f25742e489bf55210e26981dc02992bb585feb97",
+      "role": "0x7477535acdef313b25d16b4871e7023fac62af68d6312bbdbdb96203a4710dc3",
+      "mimeTypeHash": "0x82e6a468c95da6cfe399f69ee0782fd009e354a8030ea5636ea9c7db0edcf7f5",
+      "filenameHash": "0x3a5fc6f13b106c8a59fd0318a9602ac882b43a4b76e233eb79163ed05fd7fc08",
+      "normProfileId": "0x464861b0846e795db3d9c52e9c49870c7e83f2bb07f73764f7e4850151994f40"
+    }
+  ],
+  "bundleHash": "0x65ecd792a6a8c5fafda771c501c2b7a52a9bc725efbb517b981534bc84555e69"
+}

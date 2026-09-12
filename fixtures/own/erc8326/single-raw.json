@@ -1,0 +1,22 @@
+{
+  "description": "Single-entry bundle: the spec's raw entry alone (bundle hash of one leaf differs from the leaf itself).",
+  "documents": [
+    {
+      "filename": "README.TXT",
+      "mimeType": "text/plain",
+      "role": "SUPPORTING",
+      "profile": "raw",
+      "content": "Hello, ERC-8326!\n"
+    }
+  ],
+  "entries": [
+    {
+      "contentHash": "0x06750728a91d155294f77f992fec49acabb0470481439ed5e3bb59854df82ec9",
+      "role": "0xb0e9b5730d97b99270ce15f439eec98a4f9580e1dfbfb8f5c9e0e3ab71d4bca6",
+      "mimeTypeHash": "0xb25570cad408307f58d995c1dadde60bc76e94924d640305a148c9a11f8303bf",
+      "filenameHash": "0x31f491635b16d6fb45a7d770fcbcc8cbb6eae32ac98ab622631f4bc4a8c7e9ce",
+      "normProfileId": "0xbe97b35c60bb0caee86a5a99022973ef2aa47cbf9586dd34065141c6668b430b"
+    }
+  ],
+  "bundleHash": "0x1701b996f4d7932ea4db5a9666c1cbc9ea7d7d422b72b7af43ddf023e103801e"
+}

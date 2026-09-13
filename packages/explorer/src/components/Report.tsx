@@ -26,18 +26,24 @@ export function Summary({ report, jsonHref }: { report: JsonReport; jsonHref: st
   const blockNumber = report.baseline[0]?.evidence.blockNumber;
   const identity = tokenIdentity(report);
   return (
-    <section className="rounded border border-zinc-200 p-4 dark:border-zinc-800">
-      {identity && (
-        <p className="text-xl font-semibold">
-          {identity.name} <span className="font-mono">({identity.symbol})</span>{" "}
-          <span className="text-sm font-normal text-zinc-500">
-            · {identity.decimals} decimals · total supply {identity.totalSupply}
-          </span>
-        </p>
-      )}
-      <h1 className="text-lg font-semibold">
-        Token <span className={mono}>{report.token}</span>
-      </h1>
+    <>
+      <header className="mb-4">
+        {identity ? (
+          <>
+            <h1 className="text-3xl font-semibold tracking-tight">
+              {identity.name}{" "}
+              <span className="font-mono text-2xl font-medium text-zinc-500 dark:text-zinc-400">{identity.symbol}</span>
+            </h1>
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              {identity.decimals} decimals · total supply {identity.totalSupply}
+            </p>
+          </>
+        ) : (
+          <h1 className="text-2xl font-semibold tracking-tight">Token report</h1>
+        )}
+        <p className={`mt-2 ${mono}`}>{report.token}</p>
+      </header>
+      <section className="rounded border border-zinc-200 p-4 dark:border-zinc-800">
       <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
         <dt className="text-zinc-500">chain</dt>
         <dd className={mono}>{report.chainId}</dd>
@@ -75,6 +81,7 @@ export function Summary({ report, jsonHref }: { report: JsonReport; jsonHref: st
         pins its reads to one block; the command under each row re-runs it.
       </p>
     </section>
+    </>
   );
 }
 

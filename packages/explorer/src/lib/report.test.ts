@@ -103,7 +103,7 @@ describe("Report rendering (static markup)", () => {
     const meta = check("erc20.metadata", 20, "pass", { name: "TREX Dino", symbol: "TREXDINO", decimals: 0, totalSupply: "1000" });
     const withId = renderToStaticMarkup(createElement(Summary, { report: report([...baseline, meta]), jsonHref: "/j" }));
     expect(withId).toContain("TREX Dino");
-    expect(withId).toContain("(TREXDINO)");
+    expect(withId).toContain(">TREXDINO</span>");
     expect(withId).toContain("total supply 1,000");
     expect(withId).toContain("5 checks ran");
   });

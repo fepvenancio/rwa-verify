@@ -6,9 +6,9 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "observability": { "enabled": true },
-  // Public RPC endpoints used when a request carries no `rpc` param. Override per environment.
+  // Public RPC endpoints used when a request carries no `rpc` param.
+  // RPC_URL_1 (mainnet) is a wrangler secret (Alchemy), set with `wrangler secret put RPC_URL_1`.
   "vars": {
-    "RPC_URL_1": "https://ethereum-rpc.publicnode.com",
     "RPC_URL_11155111": "https://ethereum-sepolia-rpc.publicnode.com"
   }
 }

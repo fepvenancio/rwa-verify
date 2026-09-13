@@ -28,6 +28,7 @@ describe("parseArgs", () => {
     [[A.token, "--chain", "1", "--bogus", "x"], /unknown flag/],
     [[A.token, "--chain", "1", "--role", "0x12"], /bytes32/],
     [[A.token, "--chain", "1", "--nav-oracle", "0x12"], /address/],
+    [[A.token, "--chain", "1", "--holder", "0x12"], /address/],
     [[A.token, "--chain", "1", "--claim-type", "9"], /0-7/],
     [[A.token, "--chain", "1", "--rpc"], /needs a value/],
     [["check", "erc165.detect", "--chain", "1"], /must be an address/],
@@ -85,7 +86,7 @@ describe("reproduce strings", () => {
       chainId: CHAIN_ID,
       token: A.token,
       rpc: "http://127.0.0.1:8545",
-      registryHints: { navOracle: A.oracle, currency: USD, documentAnchor: A.anchor, role: LEGAL_BASIS, eventLog: A.log },
+      registryHints: { navOracle: A.oracle, currency: USD, documentAnchor: A.anchor, role: LEGAL_BASIS, eventLog: A.log, holder: A.holder },
     });
     const checks = [...report.baseline, ...report.identity, ...report.documents, ...report.valuation, ...report.compliance];
     expect(checks.length).toBeGreaterThanOrEqual(15); // two subjects -> 2x documents/valuation/compliance + mismatch

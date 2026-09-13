@@ -16,6 +16,7 @@ export interface RegistryHints {
   currency?: Hex; // ERC-8330 stream currency
   eventLog?: Hex; // ERC-8328 log
   eventType?: Hex; // ERC-8328 event type (optional; default = last recorded event)
+  holder?: Hex; // ERC-3643 holder to check (erc3643.holder)
 }
 
 // Hint key -> CLI flag. Single source of truth for reproduce strings and the CLI parser.
@@ -31,6 +32,7 @@ export const HINT_FLAGS: Record<keyof RegistryHints, string> = {
   currency: "--currency",
   eventLog: "--event-log",
   eventType: "--event-type",
+  holder: "--holder",
 };
 
 // Hints a check actually used, echoed into its reproduce string. Values may be undefined.

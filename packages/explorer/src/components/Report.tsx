@@ -1,6 +1,6 @@
 import type { CheckResult, CheckStatus } from "@rwa-verify/core";
 import { CopyButton } from "./CopyButton";
-import { SECTIONS, type JsonReport } from "@/lib/report";
+import { SECTIONS, groupRows, tokenIdentity, type JsonReport } from "@/lib/report";
 
 const STATUSES: CheckStatus[] = ["pass", "fail", "stale", "unsupported", "unknown"];
 
@@ -18,13 +18,23 @@ export function Badge({ status }: { status: CheckStatus }) {
 }
 
 const mono = "font-mono text-xs break-all";
+const list = "divide-y divide-zinc-200 rounded border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800";
 
 export function Summary({ report, jsonHref }: { report: JsonReport; jsonHref: string }) {
-  const all = SECTIONS.flatMap((s) => report[s.key]);
-  const counts = STATUSES.map((st) => [st, all.filter((c) => c.status === st).length] as const).filter(([, n]) => n > 0);
+  const { ran, notDeclared } = groupRows(SECTIONS.flatMap((s) => report[s.key]));
+  const counts = STATUSES.map((st) => [st, ran.filter((c) => c.status === st).length] as const).filter(([, n]) => n > 0);
   const blockNumber = report.baseline[0]?.evidence.blockNumber;
+  const identity = tokenIdentity(report);
   return (
     <section className="rounded border border-zinc-200 p-4 dark:border-zinc-800">
+      {identity && (
+        <p className="text-xl font-semibold">
+          {identity.name} <span className="font-mono">({identity.symbol})</span>{" "}
+          <span className="text-sm font-normal text-zinc-500">
+            · {identity.decimals} decimals · total supply {identity.totalSupply}
+          </span>
+        </p>
+      )}
       <h1 className="text-lg font-semibold">
         Token <span className={mono}>{report.token}</span>
       </h1>
@@ -46,19 +56,23 @@ export function Summary({ report, jsonHref }: { report: JsonReport; jsonHref: st
         <dt className="text-zinc-500">generated</dt>
         <dd className={mono}>{report.generatedAt}</dd>
       </dl>
-      <div className="mt-3 flex flex-wrap items-center gap-2">
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+        <span className="font-semibold">
+          {ran.length} {ran.length === 1 ? "check" : "checks"} ran{counts.length > 0 && ":"}
+        </span>
         {counts.map(([st, n]) => (
-          <span key={st} className="flex items-center gap-1 text-sm">
+          <span key={st} className="flex items-center gap-1">
             <Badge status={st} /> {n}
           </span>
         ))}
+        {notDeclared.rows.length > 0 && <span className="text-zinc-500">· {notDeclared.rows.length} not declared</span>}
         <a href={jsonHref} className="ml-auto text-sm text-zinc-600 hover:underline dark:text-zinc-400">
           JSON
         </a>
       </div>
       <p className="mt-3 text-xs text-zinc-600 dark:text-zinc-400">
-        <strong>unsupported</strong> means the token does not declare that standard, not that it failed (ADR-004). Every check pins its reads to one block; the
-        command under each row re-runs it.
+        <strong>not declared</strong> (<code>unsupported</code>) means the token does not declare that standard, not that it failed (ADR-004). Every check
+        pins its reads to one block; the command under each row re-runs it.
       </p>
     </section>
   );
@@ -67,22 +81,52 @@ export function Summary({ report, jsonHref }: { report: JsonReport; jsonHref: st
 export function Panels({ report }: { report: JsonReport }) {
   return (
     <>
-      {SECTIONS.map((s) => (
-        <section key={s.key} className="mt-6">
-          <h2 className="flex items-baseline gap-2 text-base font-semibold">
-            {s.title} <span className="text-xs font-normal text-zinc-500">{s.ercs}</span>
-          </h2>
-          <ul className="mt-2 divide-y divide-zinc-200 rounded border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
-            {report[s.key].map((c, i) => (
-              <li key={`${c.id}-${i}`}>
-                <CheckRow check={c} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      {SECTIONS.map((s) => {
+        const { ran, notDeclared, info } = groupRows(report[s.key]);
+        return (
+          <section key={s.key} className="mt-6">
+            <h2 className="flex items-baseline gap-2 text-base font-semibold">
+              {s.title} <span className="text-xs font-normal text-zinc-500">{s.ercs}</span>
+            </h2>
+            <ul className={list}>
+              <Rows checks={ran} />
+              {info.map((c, i) => (
+                <li key={`${c.id}-${i}`} className="p-3 text-sm">
+                  <span className="font-mono font-medium">{c.id}</span> <span className="text-zinc-600 dark:text-zinc-400">No ERC-165: standards probed directly</span>
+                  <details className="mt-1">
+                    <summary className="cursor-pointer text-xs text-zinc-500">details</summary>
+                    <CheckRow check={c} />
+                  </details>
+                </li>
+              ))}
+              {notDeclared.rows.length > 0 && (
+                <li>
+                  <details className="group p-3 text-sm">
+                    <summary className="flex cursor-pointer flex-wrap items-baseline gap-2">
+                      <span className="text-zinc-600 dark:text-zinc-400">Not declared: {notDeclared.ercs.map((e) => `ERC-${e}`).join(", ")}</span>
+                      <span className="text-xs text-zinc-500 group-open:hidden">show {notDeclared.rows.length}</span>
+                      <span className="hidden text-xs text-zinc-500 group-open:inline">hide</span>
+                    </summary>
+                    <ul className={`mt-2 ${list}`}>
+                      <Rows checks={notDeclared.rows} />
+                    </ul>
+                  </details>
+                </li>
+              )}
+            </ul>
+          </section>
+        );
+      })}
     </>
   );
+}
+
+function Rows({ checks }: { checks: CheckResult[] }) {
+  return checks.map((c, i) => (
+    <li key={`${c.id}-${i}`}>
+      <CheckRow check={c} />
+    </li>
+  ));
 }
 
 function CheckRow({ check }: { check: CheckResult }) {

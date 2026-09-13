@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { runCli } from "@rwa-verify/sdk";
+import { CHECKS, runCli } from "@rwa-verify/sdk";
 import { erc165Abi } from "../../../sdk/src/abi/erc165.js";
 import { contract, fakeClient } from "../../../sdk/src/testing/fakeChain.js";
 import { A, ANCHOR_ID, BLOCK, CHAIN_ID, LEGAL_BASIS, USD, stack } from "../../../sdk/src/testing/stack.js";
@@ -19,7 +19,7 @@ describe("GET /api/v1/verify", () => {
     expect(report).toMatchObject({ chainId: CHAIN_ID, token: A.token });
     expect(report.generatedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
     for (const s of sections) expect(Array.isArray(report[s]), s).toBe(true);
-    expect(report.baseline.length).toBe(8);
+    expect(report.baseline.map((c: { id: string }) => c.id)).toEqual(Object.keys(CHECKS).filter((id) => id.startsWith("erc20.") || id.startsWith("erc3643.") || id.startsWith("erc7943.") || id.startsWith("erc4626.") || id === "erc165.detect"));
     const statuses = Object.fromEntries(sections.flatMap((s) => report[s].map((c: { id: string; status: string }) => [c.id, c.status])));
     expect(statuses).toMatchObject({ "erc8325.mutualBinding": "pass", "erc8330.navFresh": "pass", "erc8326.activeBundle": "pass", "erc8328.latestCurrentEvent": "pass" });
     expect(report.baseline[0].evidence.blockNumber).toBe(BLOCK.toString());

@@ -11,7 +11,7 @@ describe("verify", () => {
   it("non-ERC-165 token: baseline-only report, everything unsupported, nothing thrown", async () => {
     const client = fakeClient({ chainId: CHAIN_ID, blockNumber: BLOCK, contracts: { [A.token]: contract(erc165Abi, {}) } });
     const report = await verify({ client, chainId: CHAIN_ID, token: A.token });
-    expect(report.baseline.length).toBe(8);
+    expect(report.baseline.length).toBe(16);
     expect(report.identity.map((c) => c.id)).toEqual(["erc8325.mutualBinding", "erc8320.activeClaim"]);
     expect(report.documents.length + report.valuation.length + report.compliance.length).toBe(3);
     for (const s of sections) for (const c of report[s]) expect(c.status, c.id).toBe("unsupported");
@@ -23,10 +23,18 @@ describe("verify", () => {
     const report = await verify({ client: stack().client, chainId: CHAIN_ID, token: A.token, registryHints: fullHints });
     const statuses = Object.fromEntries(sections.flatMap((s) => report[s].map((c) => [c.id, c.status])));
     expect(statuses).toEqual({
+      "erc20.metadata": "pass",
       "erc165.detect": "pass",
       "erc3643.paused": "pass",
       "erc3643.identityRegistry": "pass",
       "erc3643.compliance": "pass",
+      "erc3643.onchainID": "pass",
+      "erc3643.version": "pass",
+      "erc3643.registryWiring": "pass",
+      "erc3643.claimTopics": "pass",
+      "erc3643.trustedIssuers": "pass",
+      "erc3643.complianceBound": "pass",
+      "erc3643.holder": "unknown",
       "erc7943.canTransfer": "pass",
       "erc7943.frozenBalance": "pass",
       "erc4626.asset": "unsupported",

@@ -24,6 +24,7 @@ hints (addresses the token cannot tell us about; all optional):
   --currency <bytes32>          ERC-8330 stream currency
   --event-log <address>         ERC-8328 log
   --event-type <bytes32>        ERC-8328 event type (default: last recorded event)
+  --holder <address>            ERC-3643 holder for erc3643.holder
 
 check ids: ${Object.keys(CHECKS).join(", ")}
 exit codes: 0 pass/unsupported/unknown, 1 fail/stale, 2 usage error`;
@@ -40,7 +41,7 @@ export interface CliArgs {
   hints: RegistryHints;
 }
 
-const ADDRESS_HINTS = new Set<keyof RegistryHints>(["anchorRegistry", "claimRegistry", "documentAnchor", "navOracle", "eventLog"]);
+const ADDRESS_HINTS = new Set<keyof RegistryHints>(["anchorRegistry", "claimRegistry", "documentAnchor", "navOracle", "eventLog", "holder"]);
 const BYTES32 = /^0x[0-9a-fA-F]{64}$/;
 const FLAG_TO_HINT = Object.fromEntries(Object.entries(HINT_FLAGS).map(([k, v]) => [v, k])) as Record<string, keyof RegistryHints>;
 

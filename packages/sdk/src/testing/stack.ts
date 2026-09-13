@@ -1,10 +1,11 @@
-// Test fixture: a conforming ERC-3643 + 7943 + 8325 token, its anchor registry, an ERC-8330
-// oracle, an ERC-8326 anchor, an ERC-8328 log and an ERC-8320 claim registry, with knobs to
-// break one thing at a time. Addresses are fixed so tests can assert on them.
-import { encodeAbiParameters, keccak256, toHex, type Abi, type PublicClient } from "viem";
+// Test fixture: a conforming ERC-3643 + 7943 + 8325 token, its T-REX suite (identity registry,
+// issuers registry, topics registry, compliance), its anchor registry, an ERC-8330 oracle, an
+// ERC-8326 anchor, an ERC-8328 log and an ERC-8320 claim registry, with knobs to break one thing
+// at a time. Addresses are fixed so tests can assert on them.
+import { encodeAbiParameters, erc20Abi, keccak256, toHex, type Abi, type PublicClient } from "viem";
 import type { Hex } from "@rwa-verify/core";
 import { erc165Abi } from "../abi/erc165.js";
-import { erc3643Abi } from "../abi/erc3643.js";
+import { claimTopicsRegistryAbi, complianceAbi, erc3643Abi, identityRegistryAbi, trustedIssuersRegistryAbi } from "../abi/erc3643.js";
 import { erc4626Abi } from "../abi/erc4626.js";
 import { erc7943FungibleAbi } from "../abi/erc7943.js";
 import { registryAnchorAbi, regulatedAssetClaimRegistryAbi } from "../abi/erc8320.js";
@@ -28,6 +29,12 @@ export const A = {
   other: "0x9000000000000000000000000000000000000009",
   identityRegistry: "0x7000000000000000000000000000000000000007",
   compliance: "0x8000000000000000000000000000000000000008",
+  identityStorage: "0x1100000000000000000000000000000000000011",
+  issuersRegistry: "0x2200000000000000000000000000000000000022",
+  topicsRegistry: "0x3300000000000000000000000000000000000033",
+  onchainID: "0x4400000000000000000000000000000000000044",
+  issuer: "0x5500000000000000000000000000000000000055",
+  holder: "0x6600000000000000000000000000000000000066",
 } as const satisfies Record<string, Hex>;
 
 export const LEGAL_HASH = keccak256(toHex("legal"));
@@ -48,6 +55,15 @@ export interface StackConfig {
   tokenAnchorId: Hex;
   tokenRegistry: Hex;
   paused: boolean;
+  onchainID: Hex;
+  version: string | null; // null -> version() reverts (older T-REX)
+  identityStorage: Hex;
+  claimTopics: bigint[];
+  trustedIssuers: Hex[];
+  complianceBound: boolean;
+  complianceHasIsTokenBound: boolean; // false -> isTokenBound() reverts, only getTokenBound() answers
+  holderVerified: boolean; // registered and verified in the identity registry
+  holderFrozen: boolean;
   registryDeclares: InterfaceName[];
   record: Record8325;
   isBound: boolean;
@@ -73,6 +89,15 @@ export const DEFAULTS: StackConfig = {
   tokenAnchorId: ANCHOR_ID,
   tokenRegistry: A.registry,
   paused: false,
+  onchainID: A.onchainID,
+  version: "4.1.3",
+  identityStorage: A.identityStorage,
+  claimTopics: [1n],
+  trustedIssuers: [A.issuer],
+  complianceBound: true,
+  complianceHasIsTokenBound: true,
+  holderVerified: true,
+  holderFrozen: false,
   registryDeclares: ["IERC165", "IAssetAnchorRegistry", "IAssetAnchorRegistryLifecycle"],
   record: { anchorId: ANCHOR_ID, legalHash: LEGAL_HASH, evidenceHash: EVIDENCE_HASH, boundToken: A.token, bindingScope: BINDING_SCOPE_CONTRACT, boundTokenId: 0n, registeredAt: 1n, active: true },
   isBound: true,
@@ -106,14 +131,22 @@ function erc165(declares: InterfaceName[]) {
 const claim = { assetId: ASSET_ID, claimType: 0, schemaId: keccak256(toHex("schema")), schemaHash: keccak256(toHex("schemahash")), version: 1n, validFrom: 1n, validUntil: 0n, claimState: 2, tags: [] as Hex[], contentHash: keccak256(toHex("content")), author: A.other, uri: "ipfs://claim" };
 
 export function buildContracts(c: StackConfig): Record<string, Handler> {
-  const tokenAbi: Abi = [...erc165Abi, ...erc3643Abi, ...erc7943FungibleAbi, ...erc4626Abi, ...assetBoundTokenAbi, ...assetBoundTokenIdAbi, ...registryAnchorAbi];
+  const tokenAbi: Abi = [...erc165Abi, ...erc20Abi, ...erc3643Abi, ...erc7943FungibleAbi, ...erc4626Abi, ...assetBoundTokenAbi, ...assetBoundTokenIdAbi, ...registryAnchorAbi];
   const approved = new Set(c.approvedRegistries.map((a) => a.toLowerCase()));
   return {
     [A.token]: contract(tokenAbi, {
       ...erc165(c.tokenDeclares),
+      name: () => "Fixture Token",
+      symbol: () => "FIX",
+      decimals: () => 18,
+      totalSupply: () => 1_000_000n,
+      balanceOf: () => 1000n,
       paused: () => c.paused,
+      onchainID: () => c.onchainID,
+      version: () => must(c.version, "no version()"),
       identityRegistry: () => A.identityRegistry,
       compliance: () => A.compliance,
+      isFrozen: () => c.holderFrozen,
       canTransfer: () => (c.canTransferReverts ? revert("canTransfer reverted") : false),
       getFrozenTokens: () => 0n,
       asset: () => must(c.vaultAsset, "not a vault"),
@@ -124,6 +157,23 @@ export function buildContracts(c: StackConfig): Record<string, Handler> {
       isAnchorActive: () => c.isActive,
       getRegistries: () => c.knownRegistries,
       isRegistryApproved: (r: string) => approved.has(r.toLowerCase()),
+    }),
+    [A.identityRegistry]: contract(identityRegistryAbi, {
+      identityStorage: () => c.identityStorage,
+      issuersRegistry: () => A.issuersRegistry,
+      topicsRegistry: () => A.topicsRegistry,
+      contains: () => c.holderVerified,
+      isVerified: () => c.holderVerified,
+      investorCountry: () => (c.holderVerified ? 620 : 0),
+    }),
+    [A.topicsRegistry]: contract(claimTopicsRegistryAbi, { getClaimTopics: () => c.claimTopics }),
+    [A.issuersRegistry]: contract(trustedIssuersRegistryAbi, {
+      getTrustedIssuers: () => c.trustedIssuers,
+      getTrustedIssuerClaimTopics: () => c.claimTopics,
+    }),
+    [A.compliance]: contract(complianceAbi, {
+      isTokenBound: () => (c.complianceHasIsTokenBound ? c.complianceBound : revert("isTokenBound not implemented")),
+      getTokenBound: () => (c.complianceBound ? A.token : "0x0000000000000000000000000000000000000000"),
     }),
     [A.registry]: contract([...erc165Abi, ...assetAnchorRegistryAbi, ...assetAnchorRegistryLifecycleAbi, ...assetAnchorRegistryRecoveryAbi], {
       ...erc165(c.registryDeclares),

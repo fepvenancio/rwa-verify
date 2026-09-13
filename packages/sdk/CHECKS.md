@@ -19,14 +19,26 @@ Status semantics shared by all checks (ADR-004):
 
 | id | ERC | pass | fail | unsupported | notes |
 |---|---|---|---|---|---|
+| `erc20.metadata` | 20 | `name()` and `symbol()` both return | — | `name()` or `symbol()` reverts | evidence `{ name, symbol, decimals, totalSupply }`; `decimals`/`totalSupply` recorded when present. Both getters are optional in ERC-20, so a contract answering only one is not treated as an ERC-20. RPC error → `unknown`. ERC-20 is not in core's `ERC` const; `specRef.erc` is the literal `20` |
 | `erc165.detect` | 165 | token answers ERC-165 (true for `0x01ffc9a7`, false for `0xffffffff`) | — | not ERC-165 | evidence lists every known interface ID and the token's answer |
 | `erc3643.paused` | 3643 | `paused() == false` | `paused() == true` | `paused()` reverts | ERC-3643 has no ERC-165 ID in the spec; probed by call. `declaresIERC3643` in evidence is the computed-ID answer |
 | `erc3643.identityRegistry` | 3643 | non-zero address | zero address | reverts | |
 | `erc3643.compliance` | 3643 | non-zero address | zero address | reverts | |
+| `erc3643.onchainID` | 3643 | non-zero address | zero address | reverts | the token's own ONCHAINID |
+| `erc3643.version` | 3643 | non-empty string | empty string | no `version()` (older T-REX) | evidence has the string |
+| `erc3643.registryWiring` | 3643 | `identityStorage()`, `issuersRegistry()`, `topicsRegistry()` of the identity registry all non-zero | any zero | any of the three reverts (T-REX 1.x has no `identityStorage()`) | evidence has the three addresses, or `function` naming the getter that reverted |
+| `erc3643.claimTopics` | 3643 | `topicsRegistry().getClaimTopics()` non-empty | empty: no claim is required to hold the token | reverts | topics as decimal strings |
+| `erc3643.trustedIssuers` | 3643 | `issuersRegistry().getTrustedIssuers()` non-empty | empty: nobody can attest the claim topics | `getTrustedIssuers()` or any `getTrustedIssuerClaimTopics(issuer)` reverts (T-REX 1.x indexes issuers by `uint`, see `docs/spec-findings.md`) | evidence lists each issuer with its claim topics |
+| `erc3643.complianceBound` | 3643 | `compliance().isTokenBound(token)`; when that reverts, `getTokenBound() == token` | `false`, or another token | both revert | evidence has whichever was read; `isTokenBoundError` on the fallback path |
+| `erc3643.holder` | 3643 | `--holder` is `isVerified` in the identity registry and not `isFrozen` on the token | not verified, or frozen | a read reverts (T-REX 1.x lacks `isFrozen`/`getFrozenTokens`; `function` names it) | `unknown` with `reason: "pass --holder <address>"` when no `--holder` (the token supports it; the input is missing). Evidence: `isVerified`, `contains`, `investorCountry`, `isFrozen`, `getFrozenTokens`, `balanceOf` |
 | `erc7943.canTransfer` | 7943 | call returns (any boolean) | call reverts (spec: MUST NOT revert) | none of the three 7943 IDs declared | probe `0x…dEaD`→`0x…dEaD`, amount 0, `tokenId` for NFT/multi variants; `allowed` is a recorded fact |
 | `erc7943.frozenBalance` | 7943 | `getFrozenTokens(probe[, tokenId])` returns | reverts | not 7943 | uint256, or bool for the NFT variant |
 | `erc4626.asset` | 4626 | non-zero address | zero address | `asset()` reverts | no ERC-165 ID exists for 4626 |
 | `erc4626.totalAssets` | 4626 | returns | — | reverts | recorded fact |
+
+The seven deeper ERC-3643 checks (`onchainID` … `holder`) probe `identityRegistry()` first: a token that does not
+answer it is not ERC-3643 and every one of them is `unsupported`. A revert further down (a registry or token lacking
+the function, as in older T-REX releases) is also `unsupported`, never `fail`; only an RPC error is `unknown`.
 
 ## Identity (`VerificationReport.identity`)
 

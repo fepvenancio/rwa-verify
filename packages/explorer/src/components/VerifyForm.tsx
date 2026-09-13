@@ -65,6 +65,9 @@ export function VerifyForm({ hints }: { hints: [key: string, flag: string][] }) 
       >
         {pending ? "Verifying…" : "Verify"}
       </button>
+      {hints.some(([key]) => key === "holder") && (
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">For ERC-3643 tokens add a holder address (under registry hints) to check verification and freeze status.</p>
+      )}
     </form>
   );
 }

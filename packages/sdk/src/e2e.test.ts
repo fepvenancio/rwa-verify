@@ -76,10 +76,18 @@ describe.skipIf(!tools)(tools ? "e2e: fixture stack on Anvil" : "e2e: fixture st
   it("every 83xx check passes; baseline 3643/7943/4626 are unsupported", () => {
     const statuses = Object.fromEntries(sections.flatMap((s) => report[s].map((c) => [c.id, c.status])));
     expect(statuses).toEqual({
+      "erc20.metadata": "unsupported", // the Foundry fixture token has no name()/symbol()
       "erc165.detect": "pass",
       "erc3643.paused": "unsupported",
       "erc3643.identityRegistry": "unsupported",
       "erc3643.compliance": "unsupported",
+      "erc3643.onchainID": "unsupported",
+      "erc3643.version": "unsupported",
+      "erc3643.registryWiring": "unsupported",
+      "erc3643.claimTopics": "unsupported",
+      "erc3643.trustedIssuers": "unsupported",
+      "erc3643.complianceBound": "unsupported",
+      "erc3643.holder": "unsupported",
       "erc7943.canTransfer": "unsupported",
       "erc7943.frozenBalance": "unsupported",
       "erc4626.asset": "unsupported",

@@ -102,6 +102,37 @@ describe("GET /api/v1/verify", () => {
     }
   });
 
+  it("production: caller-supplied rpc must be a public https host", async () => {
+    const prev = process.env.NODE_ENV;
+    (process.env as Record<string, string>).NODE_ENV = "production";
+    try {
+      const { client } = stack();
+      for (const rpc of ["http://rpc.example", "https://127.0.0.1:8545", "https://localhost/x", "https://[::1]/x", "https://node.internal/x"]) {
+        const r = await run(q({ chain: String(CHAIN_ID), token: A.token, rpc }), undefined, { client });
+        expect(r.status, rpc).toBe(400);
+        expect(JSON.parse(r.body).error).toBe("rpc must be a public https URL");
+      }
+      const ok = await run(q({ chain: String(CHAIN_ID), token: A.token, rpc: "https://rpc.example/v1" }), undefined, { client });
+      expect(ok.status).toBe(200);
+    } finally {
+      (process.env as Record<string, string>).NODE_ENV = prev!;
+    }
+  });
+
+  it("502 error bodies are redacted too", async () => {
+    process.env[`RPC_URL_${CHAIN_ID}`] = "https://rpc.example/v2/secret-key";
+    try {
+      const fail = async () => { throw Object.assign(new Error("boom"), { shortMessage: "HTTP request failed. URL: https://rpc.example/v2/secret-key" }); };
+      const client = { getChainId: fail, getBlockNumber: fail, readContract: fail, request: fail };
+      const r = await run(q({ chain: String(CHAIN_ID), token: A.token }), undefined, { client: client as never });
+      expect(r.status).toBe(502);
+      expect(r.body).not.toContain("secret-key");
+      expect(r.body).toContain(`$RPC_URL_${CHAIN_ID}`);
+    } finally {
+      delete process.env[`RPC_URL_${CHAIN_ID}`];
+    }
+  });
+
   it("toResponse: JSON, no-store", async () => {
     const res = toResponse({ status: 200, body: "{}" });
     expect(res.headers.get("content-type")).toBe("application/json");

@@ -12,6 +12,9 @@ async function query({ params, searchParams }: Props): Promise<URLSearchParams> 
   const [{ chainId, token }, sp] = await Promise.all([params, searchParams]);
   const q = new URLSearchParams();
   for (const [k, v] of Object.entries(sp)) {
+    // Report pages never accept a caller-supplied RPC: a shared link must not be able to show data from an
+    // attacker's node under this explorer's name. The API keeps `rpc=` for programmatic use.
+    if (k === "rpc") continue;
     const first = Array.isArray(v) ? v[0] : v;
     if (first !== undefined) q.set(k, first);
   }
@@ -30,10 +33,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return { title: `${symbol ?? q.get("token")} — rwa-verify` };
 }
 
-// Renders exactly what GET /api/v1/verify returns for the same inputs; the query string carries tokenId, rpc and hints.
+// Renders exactly what GET /api/v1/verify returns for the same inputs; the query string carries tokenId and hints (never rpc).
 export default async function TokenPage(props: Props) {
   const q = await query(props);
-  const r = await verify(q.toString());
+  const rpcOverride = "rpc" in (await props.searchParams);
+  const r = rpcOverride
+    ? { status: 400, body: JSON.stringify({ error: "rpc= is not accepted on report pages; use /api/v1/verify?rpc=… for a custom endpoint" }) }
+    : await verify(q.toString());
   if (r.status !== 200) {
     const { error } = JSON.parse(r.body) as { error: string };
     return (

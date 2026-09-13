@@ -45,6 +45,14 @@ function resolveRpc(chain: string, explicit: string | null): Rpc {
     /* fallthrough */
   }
   if (!parsed || (parsed.protocol !== "http:" && parsed.protocol !== "https:")) throw new UsageError("rpc must be an http(s) URL");
+  if (explicit && process.env.NODE_ENV === "production") {
+    // Caller-supplied endpoints: public https hosts only. Loopback, private and IP-literal targets are refused so the
+    // API cannot be used as a relay into anything but a public RPC (Workers' global_fetch_strictly_public backs this).
+    const host = parsed.hostname;
+    const ipLiteral = /^\d{1,3}(\.\d{1,3}){3}$/.test(host) || host.startsWith("[") || host.includes(":");
+    if (parsed.protocol !== "https:" || ipLiteral || /^(localhost|.*\.(local|localhost|internal|localdomain|home|lan))$/i.test(host))
+      throw new UsageError("rpc must be a public https URL");
+  }
   return rpc;
 }
 
@@ -92,7 +100,7 @@ export async function run(q: URLSearchParams, checkId?: string, deps: Deps = {})
     r = await runCli(argv, deps);
   } catch (err) {
     const msg = err && typeof err === "object" && "shortMessage" in err ? String(err.shortMessage) : String(err);
-    return { status: 502, body: errorBody(`rpc: ${msg}`) };
+    return { status: 502, body: redact(errorBody(`rpc: ${msg}`), rpc) };
   }
   const output = redact(r.output, rpc);
   if (r.exitCode === 2) return { status: 400, body: errorBody(output.split("\n")[0]!.replace(/^error: /, "")) };

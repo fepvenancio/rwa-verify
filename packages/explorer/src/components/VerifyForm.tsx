@@ -38,10 +38,6 @@ export function VerifyForm({ hints }: { hints: [key: string, flag: string][] }) 
         Token id <span className="text-zinc-500">(optional, ERC-8325 token-id bindings / ERC-7943 NFT variants)</span>
         <input name="tokenId" inputMode="numeric" pattern="\d+" className={input} />
       </label>
-      <label className="flex flex-col gap-1 text-sm">
-        RPC URL <span className="text-zinc-500">(optional; the server default for the chain is used otherwise)</span>
-        <input name="rpc" type="url" placeholder="https://…" className={input} />
-      </label>
       <details className="rounded border border-zinc-200 p-3 text-sm dark:border-zinc-800">
         <summary className="cursor-pointer">Advanced: registry hints</summary>
         <p className="mt-2 text-zinc-600 dark:text-zinc-400">

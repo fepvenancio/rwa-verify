@@ -58,7 +58,7 @@ describe("GET /api/v1/verify", () => {
       [{ chain: "1", token: A.token, rpc: RPC, anchorregistry: A.registry }, /unknown query parameter: anchorregistry/],
       [{ chain: "1", token: A.token, rpc: "file:///etc/passwd" }, /rpc must be an http\(s\) URL/],
       [{ chain: "1", token: A.token, rpc: "not a url" }, /rpc must be an http\(s\) URL/],
-      [{ chain: "424242", token: A.token }, /no RPC for chain 424242: pass rpc=<url> or set RPC_URL_424242/],
+      [{ chain: "424242", token: A.token }, /no RPC for chain 424242: pass rpc=<url> or set RPC_URL_424242 or ALCHEMY_API_KEY/],
     ];
     for (const [params, msg] of cases) {
       const r = await run(q(params), undefined, { client });
@@ -74,14 +74,31 @@ describe("GET /api/v1/verify", () => {
     expect(JSON.parse(r.body).error).toBe(`--chain 1 but the RPC reports chain ${CHAIN_ID}`);
   });
 
-  it("RPC_URL_<chainId> is used when rpc is absent and shows up in reproduce", async () => {
-    process.env[`RPC_URL_${CHAIN_ID}`] = "https://rpc.example/v1";
+  it("RPC_URL_<chainId> is used when rpc is absent and is redacted to a placeholder in the response", async () => {
+    process.env[`RPC_URL_${CHAIN_ID}`] = "https://rpc.example/v2/secret-key";
     try {
       const { client } = stack();
-      const report = JSON.parse((await run(q({ chain: String(CHAIN_ID), token: A.token }), undefined, { client })).body);
-      expect(report.baseline[0].reproduce).toContain("--rpc https://rpc.example/v1");
+      const r = await run(q({ chain: String(CHAIN_ID), token: A.token }), undefined, { client });
+      expect(r.body).not.toContain("secret-key");
+      expect(JSON.parse(r.body).baseline[0].reproduce).toContain(`--rpc $RPC_URL_${CHAIN_ID}`);
     } finally {
       delete process.env[`RPC_URL_${CHAIN_ID}`];
+    }
+  });
+
+  it("ALCHEMY_API_KEY builds the URL for known chains and never appears in the response", async () => {
+    process.env.ALCHEMY_API_KEY = "alchemy-secret";
+    try {
+      const { client } = stack();
+      const r = await run(q({ chain: "1", token: A.token }), undefined, { client });
+      expect(r.body).not.toContain("alchemy-secret");
+      // chain-id mismatch with the fake stack is expected; what matters is that the Alchemy URL was resolved
+      expect(r.status).toBe(400);
+      expect(JSON.parse(r.body).error).toContain("--chain 1 but the RPC reports chain");
+      const unknown = await run(q({ chain: "424242", token: A.token }), undefined, { client });
+      expect(JSON.parse(unknown.body).error).toMatch(/no RPC for chain 424242/);
+    } finally {
+      delete process.env.ALCHEMY_API_KEY;
     }
   });
 

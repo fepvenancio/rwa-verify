@@ -4,7 +4,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "rwa-verify explorer",
-  description: "Read-side verification of tokenised real-world assets: ERC-3643 / 7943 / 4626 baseline plus ERC-8320 / 8325 / 8326 / 8328 / 8330.",
+  description:
+    "Read-side verification for tokenised real-world assets: what a token declares, whether it holds, and the command to re-run every check yourself. ERC-3643 / 7943 / 4626 baseline plus ERC-8320 / 8325 / 8326 / 8328 / 8330.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -16,9 +17,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/" className="font-semibold">
               rwa-verify
             </Link>
-            <a href="/api/v1" className="text-zinc-600 hover:underline dark:text-zinc-400">
-              API
-            </a>
+            <div className="flex gap-4 text-zinc-600 dark:text-zinc-400">
+              <Link href="/about" className="hover:underline">
+                About
+              </Link>
+              <a href="/api/v1" className="hover:underline">
+                API
+              </a>
+              <a href="https://github.com/fepvenancio/rwa-verify" className="hover:underline" target="_blank" rel="noopener">
+                GitHub
+              </a>
+            </div>
           </nav>
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">{children}</main>

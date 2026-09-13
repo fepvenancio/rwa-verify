@@ -2,6 +2,8 @@
 
 Read-side verification kit for tokenised real-world assets.
 
+Live explorer and API: https://rwa-verify-explorer.stela-app.workers.dev (`/api/v1` lists the endpoints).
+
 Consumes ERC-3643 / ERC-7943 / ERC-4626 today and ERC-8320 / 8325 / 8326 / 8328 / 8330 as optional "verified" layers. Builds no registries, deploys no canonical contracts.
 
 - [PLAN.md](PLAN.md) — scope, workstreams, phases

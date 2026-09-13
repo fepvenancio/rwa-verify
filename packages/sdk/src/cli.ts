@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { realpathSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { createPublicClient, http, isAddress, type PublicClient } from "viem";

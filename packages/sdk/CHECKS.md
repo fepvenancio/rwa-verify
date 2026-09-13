@@ -1,4 +1,4 @@
-# Check ids emitted by `@rwa-verify/readers`
+# Check ids emitted by `@rwa-verify/sdk`
 
 Every check returns a `CheckResult` (`packages/core`) with `evidence.blockNumber` (all reads in a
 check are pinned to one block) and a `reproduce` string of the form

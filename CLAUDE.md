@@ -66,4 +66,4 @@ Verified against the pinned text on 2026-09-11.
 
 ## Layout
 
-`packages/{core,canon,readers,solidity,indexer,explorer}` map to WS0–WS5 in `PLAN.md §1`. `specs/` is vendored spec text, `fixtures/` is test vectors with provenance, `docs/adr/` is decisions, `docs/spec-findings.md` is upstream feedback for WS6.
+`packages/{core,canon,sdk,solidity,indexer,explorer}` (sdk = WS2 "readers") map to WS0–WS5 in `PLAN.md §1`. `specs/` is vendored spec text, `fixtures/` is test vectors with provenance, `docs/adr/` is decisions, `docs/spec-findings.md` is upstream feedback for WS6.

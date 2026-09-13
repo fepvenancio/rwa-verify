@@ -14,7 +14,7 @@ import {
   documentBundleAnchorAbi,
   navSnapshotOracleAbi,
   regulatedAssetClaimRegistryAbi,
-} from "@rwa-verify/readers";
+} from "@rwa-verify/sdk";
 import { NO_CORRECTION } from "./chain.js";
 import { fixtureEnv, type FixtureStack } from "./env-from-fixture.js";
 

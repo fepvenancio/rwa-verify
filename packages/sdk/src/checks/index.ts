@@ -9,7 +9,7 @@ import { activeBundle } from "./erc8326.js";
 import { latestCurrentEvent } from "./erc8328.js";
 import { navFresh } from "./erc8330.js";
 
-// Check id -> implementation. Ids are documented in packages/readers/CHECKS.md.
+// Check id -> implementation. Ids are documented in packages/sdk/CHECKS.md.
 export const CHECKS = {
   "erc165.detect": erc165Detect,
   "erc3643.paused": erc3643Paused,

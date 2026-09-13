@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { runCli } from "@rwa-verify/readers";
-import { erc165Abi } from "../../../readers/src/abi/erc165.js";
-import { contract, fakeClient } from "../../../readers/src/testing/fakeChain.js";
-import { A, ANCHOR_ID, BLOCK, CHAIN_ID, LEGAL_BASIS, USD, stack } from "../../../readers/src/testing/stack.js";
+import { runCli } from "@rwa-verify/sdk";
+import { erc165Abi } from "../../../sdk/src/abi/erc165.js";
+import { contract, fakeClient } from "../../../sdk/src/testing/fakeChain.js";
+import { A, ANCHOR_ID, BLOCK, CHAIN_ID, LEGAL_BASIS, USD, stack } from "../../../sdk/src/testing/stack.js";
 import { run, toResponse } from "./api";
 
 const RPC = "http://127.0.0.1:1"; // never contacted: the fake client is injected

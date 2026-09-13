@@ -4,7 +4,7 @@ import {
   documentBundleAnchorAbi,
   navSnapshotOracleAbi,
   regulatedAssetClaimRegistryAbi,
-} from "@rwa-verify/readers";
+} from "@rwa-verify/sdk";
 
 // One contract per standard, all read from the environment (documented in README.md):
 //   RPC_URL, CHAIN_ID, START_BLOCK, NAV_ORACLE, EVENT_LOG, DOCUMENT_ANCHOR, CLAIM_REGISTRY, PGLITE_DIR (optional).

@@ -1,6 +1,6 @@
 # @rwa-verify/explorer
 
-Next.js explorer and REST API over `@rwa-verify/readers`. The app is a rendering layer: every request is turned into
+Next.js explorer and REST API over `@rwa-verify/sdk`. The app is a rendering layer: every request is turned into
 CLI argv and handed to the readers CLI entry (`runCli`), so an API response is exactly what `rwa-verify` prints for the
 same inputs and the `reproduce` strings in it are the CLI's own. No verification logic lives here.
 
@@ -21,7 +21,7 @@ same inputs and the `reproduce` strings in it are the CLI's own. No verification
 | `/` | form → `/t/<chainId>/<token>?…` |
 | `/t/<chainId>/<token>?…same query…` | the report as five panels, one row per check with status, key evidence, full evidence, spec ref and the `reproduce` command |
 
-Hint parameters use the `RegistryHints` key names from `packages/readers/src/checks/context.ts` (`anchorRegistry`,
+Hint parameters use the `RegistryHints` key names from `packages/sdk/src/checks/context.ts` (`anchorRegistry`,
 `anchorId`, `claimRegistry`, `claimType`, `documentAnchor`, `role`, `navOracle`, `currency`, `eventLog`, `eventType`,
 `subjectId`); each maps to the CLI flag in `HINT_FLAGS`. A single check has no identity adapter to derive the join key
 from, so `/api/v1/check/erc83xx.*` needs `subjectId=` where the CLI needs `--subject`.
@@ -51,7 +51,7 @@ pnpm --filter @rwa-verify/explorer dev
 
 ## Build notes
 
-- `@rwa-verify/readers` is consumed from source via `tsconfig.json` `paths` (same as `packages/indexer`); `dist/` is
+- `@rwa-verify/sdk` is consumed from source via `tsconfig.json` `paths` (same as `packages/indexer`); `dist/` is
   not built in typecheck or CI. Readers uses NodeNext-style `./x.js` imports for `.ts` files, which Turbopack cannot
   map, so `dev`/`build` run with `--webpack` and `next.config.ts` sets `resolve.extensionAlias`.
 - Included in the root `pnpm -r typecheck` / `test` / `build` (the Next build takes ~10 s).

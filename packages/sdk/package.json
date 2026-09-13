@@ -1,5 +1,5 @@
 {
-  "name": "@rwa-verify/readers",
+  "name": "@rwa-verify/sdk",
   "version": "0.0.0",
   "private": true,
   "type": "module",

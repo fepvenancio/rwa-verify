@@ -5,7 +5,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     alias: {
-      "@rwa-verify/readers": fileURLToPath(new URL("../readers/src/index.ts", import.meta.url)),
+      "@rwa-verify/sdk": fileURLToPath(new URL("../sdk/src/index.ts", import.meta.url)),
       "@/": fileURLToPath(new URL("./src/", import.meta.url)),
     },
   },

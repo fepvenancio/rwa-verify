@@ -20,9 +20,9 @@ import {
     RoleKind
 } from "erc8320-ref/interfaces/IRegulatedAssetClaimRegistry.sol";
 
-/// @dev Deploys a conforming full stack with history for `rwa-verify <token>` (packages/readers) and the indexer
+/// @dev Deploys a conforming full stack with history for `rwa-verify <token>` (packages/sdk) and the indexer
 ///      (packages/indexer) on a local Anvil, and writes the addresses and stream keys to `out/fixture-stack.json`
-///      (keys match `RegistryHints` in packages/readers). 8326/8328/8330 are the reference fixtures in
+///      (keys match `RegistryHints` in packages/sdk). 8326/8328/8330 are the reference fixtures in
 ///      test/reference; 8320 is the vendored reference registry. History, relative to the deploy time T:
 ///
 ///      ERC-8330 stream (anchorId, USD), one provider (the deployer):

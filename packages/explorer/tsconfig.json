@@ -20,9 +20,9 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      // @rwa-verify/readers publishes dist/, which is not built in typecheck or CI; resolve it from source
+      // @rwa-verify/sdk publishes dist/, which is not built in typecheck or CI; resolve it from source
       // (same mapping as packages/indexer). Next honours tsconfig paths, vitest.config.ts mirrors it.
-      "@rwa-verify/readers": ["../readers/src/index.ts"]
+      "@rwa-verify/sdk": ["../sdk/src/index.ts"]
     }
   },
   "include": [

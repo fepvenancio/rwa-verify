@@ -1,7 +1,7 @@
-// REST surface over @rwa-verify/readers. Query parameters are translated to CLI argv and handed to the
+// REST surface over @rwa-verify/sdk. Query parameters are translated to CLI argv and handed to the
 // readers CLI entry, so an API response is byte-for-byte what `rwa-verify` prints for the same inputs and
 // the `reproduce` strings in it are the CLI's own. No verification logic lives here.
-import { HINT_FLAGS, UsageError, runCli } from "@rwa-verify/readers";
+import { HINT_FLAGS, UsageError, runCli } from "@rwa-verify/sdk";
 
 type Deps = NonNullable<Parameters<typeof runCli>[1]>; // { client? } — injectable for tests
 

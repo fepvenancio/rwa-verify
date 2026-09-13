@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "rwa-verify-explorer",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "observability": { "enabled": true },
+  // Public RPC endpoints used when a request carries no `rpc` param. Override per environment.
+  "vars": {
+    "RPC_URL_1": "https://ethereum-rpc.publicnode.com",
+    "RPC_URL_11155111": "https://ethereum-sepolia-rpc.publicnode.com"
+  }
+}

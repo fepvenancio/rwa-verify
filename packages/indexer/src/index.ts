@@ -1,6 +1,6 @@
 import { ponder, type Context, type Event } from "ponder:registry";
 import schema from "ponder:schema";
-import { regulatedAssetClaimRegistryAbi } from "@rwa-verify/readers";
+import { regulatedAssetClaimRegistryAbi } from "@rwa-verify/sdk";
 import { NO_CORRECTED_BY, NO_CORRECTION } from "./chain.js";
 
 // ---------------------------------------------------------------- ERC-8330

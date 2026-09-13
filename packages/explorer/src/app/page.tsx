@@ -1,4 +1,4 @@
-import { HINT_FLAGS } from "@rwa-verify/readers";
+import { HINT_FLAGS } from "@rwa-verify/sdk";
 import { VerifyForm } from "@/components/VerifyForm";
 
 export default function Home() {

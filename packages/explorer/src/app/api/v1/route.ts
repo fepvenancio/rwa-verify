@@ -1,9 +1,9 @@
 import { SPEC_COMMIT } from "@rwa-verify/core";
-import { CHECKS, HINT_FLAGS } from "@rwa-verify/readers";
+import { CHECKS, HINT_FLAGS } from "@rwa-verify/sdk";
 
 // GET /api/v1 -> endpoint listing (OpenAPI-lite)
 export function GET(): Response {
-  const hints = Object.fromEntries(Object.keys(HINT_FLAGS).map((k) => [k, "optional; see packages/readers/CHECKS.md"]));
+  const hints = Object.fromEntries(Object.keys(HINT_FLAGS).map((k) => [k, "optional; see packages/sdk/CHECKS.md"]));
   const common = {
     chain: "required; numeric chain id",
     token: "required; token address",
